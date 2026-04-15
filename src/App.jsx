@@ -74,7 +74,7 @@ export default function App() {
 
           {/* Center column */}
           <div className="md:col-span-5 space-y-4">
-            <LevelGrid playbook={playbook} inputs={inputs} />
+            <LevelGrid playbook={playbook} inputs={inputs} marketData={marketData} />
             <SetupCards
               playbook={playbook}
               inputs={inputs}

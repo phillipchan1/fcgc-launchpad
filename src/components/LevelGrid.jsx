@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { calculateLevelStatus, detectConfluenceZones, getConfluenceSweepRate } from '../utils/levelCalculator';
 
 const BADGE_STYLES = {
@@ -10,11 +10,28 @@ const BADGE_STYLES = {
 
 const TIER_LABELS = { 1: 'T1', 2: 'T2', 3: 'T3' };
 
-export default function LevelGrid({ playbook, inputs }) {
+export default function LevelGrid({ playbook, inputs, marketData }) {
   const levels = playbook?.liquidity_levels || [];
   const confluenceBonus = playbook?.confluence_bonus;
 
   const [prices, setPrices] = useState({});
+  const [autoFilled, setAutoFilled] = useState(false);
+
+  // Auto-fill prices from market data once
+  useEffect(() => {
+    if (autoFilled || !marketData?.levelPrices) return;
+    const lp = marketData.levelPrices;
+    const filled = {};
+    for (const level of levels) {
+      if (lp[level.id] != null) {
+        filled[level.id] = String(lp[level.id]);
+      }
+    }
+    if (Object.keys(filled).length > 0) {
+      setPrices(p => ({ ...filled, ...p }));
+      setAutoFilled(true);
+    }
+  }, [marketData, levels, autoFilled]);
 
   const setPrice = (id, val) => {
     setPrices(p => ({ ...p, [id]: val }));
@@ -79,14 +96,19 @@ export default function LevelGrid({ playbook, inputs }) {
                 </div>
               </div>
 
-              <input
-                type="number"
-                step="0.25"
-                placeholder="Price"
-                value={prices[level.id] ?? ''}
-                onChange={e => setPrice(level.id, e.target.value)}
-                className="w-24 bg-bg border border-border rounded px-2 py-1.5 text-xs font-mono text-text focus:border-cyan focus:outline-none min-h-[36px]"
-              />
+              <div className="relative">
+                <input
+                  type="number"
+                  step="0.25"
+                  placeholder="Price"
+                  value={prices[level.id] ?? ''}
+                  onChange={e => setPrice(level.id, e.target.value)}
+                  className="w-24 bg-bg border border-border rounded px-2 py-1.5 text-xs font-mono text-text focus:border-cyan focus:outline-none min-h-[36px]"
+                />
+                {marketData?.levelPrices?.[level.id] != null && prices[level.id] === String(marketData.levelPrices[level.id]) && (
+                  <span className="absolute -top-1.5 right-1 text-[8px] text-cyan bg-surface px-0.5">auto</span>
+                )}
+              </div>
 
               {status && (
                 <>
