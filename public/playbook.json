@@ -1,0 +1,270 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-04-14",
+  "fvgc_model_version": "2.0.5",
+  "session": {
+    "start": "09:30",
+    "end": "10:15",
+    "timezone": "America/New_York"
+  },
+  "macro_windows": [
+    {
+      "id": 1,
+      "label": "9:30–9:45",
+      "start": "09:30",
+      "end": "09:45",
+      "base_wr": 53.47,
+      "sample_n": 432,
+      "direction_bias": "short",
+      "contextual_boosts": [
+        {
+          "label": "Prior day closed near lows",
+          "condition_key": "prior_day_close_position",
+          "condition_op": "<",
+          "condition_value": 0.25,
+          "direction": "short",
+          "wr_delta": "+~7%",
+          "significance": "FDR-corrected permutation survivor"
+        },
+        {
+          "label": "Wide overnight range",
+          "condition_key": "overnight_range_bucket",
+          "condition_op": "in",
+          "condition_value": ["wide", "extreme"],
+          "direction": "short",
+          "wr_delta": "elevated",
+          "significance": "combo filter"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "label": "9:45–10:00",
+      "start": "09:45",
+      "end": "10:00",
+      "base_wr": 53.01,
+      "sample_n": 549,
+      "direction_bias": "neutral",
+      "contextual_boosts": []
+    },
+    {
+      "id": 3,
+      "label": "10:00–10:15",
+      "start": "10:00",
+      "end": "10:15",
+      "base_wr": 49.83,
+      "sample_n": 576,
+      "direction_bias": "long",
+      "contextual_boosts": []
+    }
+  ],
+  "liquidity_levels": [
+    {
+      "id": "prev_day_high",
+      "label": "Prev Day High",
+      "side": "high",
+      "tier": 1,
+      "sweep_prob_by_distance": { "0-25": 92.0, "25-50": 68.6, "50-75": 50.4, "75-100": 47.9, "100-150": 27.3, "150+": 0 },
+      "disabled_threshold_pts": 150
+    },
+    {
+      "id": "prev_day_low",
+      "label": "Prev Day Low",
+      "side": "low",
+      "tier": 1,
+      "sweep_prob_by_distance": { "0-25": 91.7, "25-50": 71.3, "50-75": 57.7, "75-100": 37.0, "100-150": 19.6, "150+": 0 },
+      "disabled_threshold_pts": 150
+    },
+    {
+      "id": "london_high",
+      "label": "London High",
+      "side": "high",
+      "tier": 2,
+      "sweep_prob_by_distance": { "0-25": 71.7, "25-50": 54.6, "50-75": 38.4, "75-100": 24.1, "100-150": 11.9, "150+": 0 },
+      "disabled_threshold_pts": 150
+    },
+    {
+      "id": "london_low",
+      "label": "London Low",
+      "side": "low",
+      "tier": 2,
+      "sweep_prob_by_distance": { "0-25": 69.4, "25-50": 51.7, "50-75": 39.6, "75-100": 27.5, "100-150": 12.7, "150+": 0 },
+      "disabled_threshold_pts": 150
+    },
+    {
+      "id": "asia_high",
+      "label": "Asia High",
+      "side": "high",
+      "tier": 3,
+      "sweep_prob_by_distance": { "0-25": 66.7, "25-50": 46.4, "50-75": 31.7, "75-100": 28.3, "100-150": 9.7, "150+": 0 },
+      "disabled_threshold_pts": 100
+    },
+    {
+      "id": "asia_low",
+      "label": "Asia Low",
+      "side": "low",
+      "tier": 3,
+      "sweep_prob_by_distance": { "0-25": 77.8, "25-50": 50.0, "50-75": 31.9, "75-100": 21.7, "100-150": 12.8, "150+": 0 },
+      "disabled_threshold_pts": 100
+    },
+    {
+      "id": "overnight_high",
+      "label": "Overnight High",
+      "side": "high",
+      "tier": 2,
+      "sweep_prob_by_distance": { "0-25": 85.0, "25-50": 60.0, "50-75": 40.0, "75-100": 28.0, "100-150": 15.0, "150+": 0 },
+      "c1_continuation_prob": 82.1,
+      "disabled_threshold_pts": 150,
+      "note": "If swept in C1, 82.1% continuation probability"
+    },
+    {
+      "id": "overnight_low",
+      "label": "Overnight Low",
+      "side": "low",
+      "tier": 2,
+      "sweep_prob_by_distance": { "0-25": 85.0, "25-50": 60.0, "50-75": 40.0, "75-100": 28.0, "100-150": 15.0, "150+": 0 },
+      "c1_continuation_prob": 80.0,
+      "disabled_threshold_pts": 150
+    },
+    {
+      "id": "swing_1m_high",
+      "label": "1m Swing High",
+      "side": "high",
+      "tier": 1,
+      "sweep_prob_c1": 97.1,
+      "avg_extension_pts": 75,
+      "continuation_prob": 58.2,
+      "disabled_threshold_pts": 50,
+      "note": "97% swept C1. Target: 60-90pts extension beyond level"
+    },
+    {
+      "id": "swing_1m_low",
+      "label": "1m Swing Low",
+      "side": "low",
+      "tier": 1,
+      "sweep_prob_c1": 95.9,
+      "avg_extension_pts": 69,
+      "disabled_threshold_pts": 50
+    },
+    {
+      "id": "prev_1h_high",
+      "label": "Prev 1H High",
+      "side": "high",
+      "tier": 2,
+      "sweep_prob_c1": 71.3,
+      "continuation_prob": 60.9,
+      "disabled_threshold_pts": 100
+    },
+    {
+      "id": "prev_1h_low",
+      "label": "Prev 1H Low",
+      "side": "low",
+      "tier": 2,
+      "sweep_prob_c1": 72.3,
+      "disabled_threshold_pts": 100
+    }
+  ],
+  "contextual_filters": {
+    "prior_day_close_position": {
+      "near_lows": { "threshold": 0.25, "operator": "<", "label": "Prior day closed near lows" },
+      "near_highs": { "threshold": 0.75, "operator": ">", "label": "Prior day closed near highs" }
+    },
+    "vix_regimes": {
+      "low":      { "max": 15,  "label": "Low Vol (<15)",      "range_expected": "~115pts first 45m" },
+      "normal":   { "min": 15,  "max": 25, "label": "Normal (15-25)", "range_expected": "~130pts first 45m" },
+      "elevated": { "min": 25,  "max": 50, "label": "Elevated (25-50)", "range_expected": "~148pts first 45m" },
+      "high":     { "min": 50,  "label": "High Vol (>50)",     "range_expected": "~208pts first 45m" }
+    },
+    "overnight_range_buckets": {
+      "tight":   { "max": 75,  "label": "Tight (<75pts)" },
+      "normal":  { "min": 75,  "max": 150, "label": "Normal (75-150pts)" },
+      "wide":    { "min": 150, "max": 200, "label": "Wide (150-200pts)" },
+      "extreme": { "min": 200, "label": "Extreme (200+pts)" }
+    }
+  },
+  "fvgc_signal_checklist": {
+    "model_version": "2.0.5",
+    "entry_variants": ["no_fvg", "ifvg", "bos", "protected_swing"],
+    "pre_entry_checks": [
+      "FVG direction aligns with macro window bias",
+      "FVG created in trading window (post 9:30 ET)",
+      "Minimum FVG size ≥ 3 NQ points",
+      "Prior swing not violated between tap and entry candle",
+      "Opposing FVG: if touched must be inversed (IFVG valid) — dead touch = no entry",
+      "Midpoint not violated on any candle since FVG creation"
+    ],
+    "stop_placement": "10-15pts beyond FVG gap",
+    "rr_ratio": 2.0,
+    "max_signal_window": "10:15 AM ET"
+  },
+  "high_probability_combos": [
+    {
+      "id": "combo_short_m1_priorlow",
+      "label": "Short M1 + Prior Day Near Lows",
+      "tier": "A",
+      "direction": "short",
+      "wr_estimate": "~60%+",
+      "note": "FDR-corrected permutation test survivor. Strongest validated edge.",
+      "conditions": [
+        { "key": "active_macro_window", "op": "==", "value": 1 },
+        { "key": "prior_day_close_position", "op": "<", "value": 0.25 }
+      ]
+    },
+    {
+      "id": "combo_short_m1_wide_overnight",
+      "label": "Short M1 + Wide Overnight Range",
+      "tier": "A",
+      "direction": "short",
+      "wr_estimate": "elevated vs baseline",
+      "note": "Wide overnight range expands session range probability — favor short in M1.",
+      "conditions": [
+        { "key": "active_macro_window", "op": "==", "value": 1 },
+        { "key": "overnight_range_bucket", "op": "in", "value": ["wide", "extreme"] }
+      ]
+    },
+    {
+      "id": "combo_high_vix_short",
+      "label": "High VIX + Short",
+      "tier": "B",
+      "direction": "short",
+      "wr_estimate": "elevated",
+      "note": "VIX >50 days see 81% wider ranges. Short bias elevated.",
+      "conditions": [
+        { "key": "vix_regime", "op": "==", "value": "high" }
+      ]
+    },
+    {
+      "id": "combo_opening_fvg_short",
+      "label": "Opening Window FVG + Short",
+      "tier": "A",
+      "direction": "short",
+      "wr_estimate": "74.1%",
+      "note": "FVG created in 9:29:30–9:31:00 window + short direction = strong edge (n=54).",
+      "conditions": [
+        { "key": "fvg_created_in_opening_window", "op": "==", "value": true },
+        { "key": "active_macro_window", "op": "==", "value": 1 }
+      ]
+    },
+    {
+      "id": "combo_prior_day_high_long",
+      "label": "Prior Day Near Highs + Long",
+      "tier": "B",
+      "direction": "long",
+      "wr_estimate": "elevated",
+      "note": "Prior day close >75th percentile of range → long continuation bias.",
+      "conditions": [
+        { "key": "prior_day_close_position", "op": ">", "value": 0.75 }
+      ]
+    }
+  ],
+  "confluence_bonus": {
+    "description": "Level clustering within 50pts of open creates super-magnet zones",
+    "cluster_threshold_pts": 50,
+    "thresholds": [
+      { "count": 2, "sweep_rate": 49.1 },
+      { "count": 3, "sweep_rate": 59.1 },
+      { "count": 4, "sweep_rate": 100.0 },
+      { "count": 5, "sweep_rate": 100.0 }
+    ]
+  }
+}
